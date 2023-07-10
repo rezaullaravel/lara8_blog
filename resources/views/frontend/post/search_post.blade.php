@@ -40,49 +40,57 @@ Search Post Page
           <div class="all-blog-posts">
             <div class="row">
 
-                @foreach ($posts as $post)
+                @if (count($searchPosts)>0)
+                @foreach ($searchPosts as $post)
 
-              <div class="col-lg-12">
-                <div class="blog-post">
-                  <div class="blog-thumb">
-                    <img src="{{asset($post->post_image)}}" alt="">
-                  </div>
-                  <div class="down-content">
-                    <span>{{$post['categories']['category_name']}}</span>
-                    <a href="javascript:void();"><h4>{{$post->post_title}}</h4></a>
-                    <ul class="post-info">
-                      <li><a href="#">{{$post['users']['name']}}</a></li>
-                      <li><a href="#">{{$post->created_at->format('F j, Y')}}</a></li>
-                      <li><a href="#">
-                        @php
-                            $comments=App\Models\Comment::where('post_id',$post->id)->get();
-                        @endphp
-                        {{count($comments)}} Comments
-                        </a></li>
-                    </ul>
-                    <p>{!!Str::limit($post->post_description, 250);!!}</p>
-                    <div class="post-options">
-                      <div class="row">
-                        <div class="col-6">
+                <div class="col-lg-12">
+                  <div class="blog-post">
+                    <div class="blog-thumb">
+                      <img src="{{asset($post->post_image)}}" alt="">
+                    </div>
+                    <div class="down-content">
+                      <span>{{$post['categories']['category_name']}}</span>
+                      <a href="javascript:void();"><h4>{{$post->post_title}}</h4></a>
+                      <ul class="post-info">
+                        <li><a href="#">{{$post['users']['name']}}</a></li>
+                        <li><a href="#">{{$post->created_at->format('F j, Y')}}</a></li>
+                        <li><a href="#">
+                          @php
+                              $comments=App\Models\Comment::where('post_id',$post->id)->get();
+                          @endphp
+                          {{count($comments)}} Comments
+                          </a></li>
+                      </ul>
+                      <p>{!!Str::limit($post->post_description, 250);!!}</p>
+                      <div class="post-options">
+                        <div class="row">
+                          <div class="col-6">
 
-                        </div>
-                        <div class="col-6">
-                          <ul class="post-share">
+                          </div>
+                          <div class="col-6">
+                            <ul class="post-share">
 
-                            <li><a href="{{route('post.single',$post->id)}}" class="readmore">ReadMore</a></li>
-                          </ul>
+                              <li><a href="{{route('post.single',$post->id)}}" class="readmore">ReadMore</a></li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              @endforeach
+                @endforeach
+                @else
+                   <div class="col-lg-12">
+                    <h2 class="text-danger text-center">No result found.......</h2>
+                    </div>
+                @endif
+
+
 
 
 
               <div class="col-lg-12">
-                {{$posts->links()}}
+                {!! $searchPosts->appends(['post_title' => $post_title])->links() !!}
               </div>
             </div>
           </div>
@@ -115,7 +123,7 @@ Search Post Page
 
 
 
-              <div class="col-lg-12">
+              {{-- <div class="col-lg-12">
                 <div class="sidebar-item2 recent-posts">
 
                   <div class="content">
@@ -130,7 +138,10 @@ Search Post Page
 
                   </div>
                 </div>
-              </div>
+              </div> --}}
+
+
+              @include('frontend.body.popular_posts')
 
 
              @include('frontend.body.categorywise_post')

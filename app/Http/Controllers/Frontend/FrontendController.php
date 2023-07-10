@@ -63,6 +63,7 @@ class FrontendController extends Controller
 
     //post search
     public function searchPost(Request $request){
+        $post_title=$request->post_title;
         $searchPosts=Post::where([
             ['post_title','!=',Null],
             [function ($query) use ($request){
@@ -72,10 +73,12 @@ class FrontendController extends Controller
             }]
         ])
         ->orderBy('id','desc')
-        ->limit(4)
-        ->get();
+        ->paginate(2);
 
-        return view('frontend.post.search_post',compact('searchPosts'));
+
+        return view('frontend.post.search_post',compact('searchPosts','post_title'));
+
+
     }//end method
 
 

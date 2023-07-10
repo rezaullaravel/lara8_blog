@@ -12,12 +12,12 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link" href="about.html">About Us</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="blog.html">Contact Us</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
               <a class="nav-link" href="{{url('/login')}}" target="_blank">Login</a>
             </li>

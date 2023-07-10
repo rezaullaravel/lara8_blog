@@ -1,5 +1,8 @@
 @extends('frontend.frontend_master')
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+<script src="{{ asset('js/share.js') }}"></script>
+
 <style>
     .my_media{}
     .my_media ul{}
@@ -177,12 +180,12 @@ Post Detail Page
 
                         <div class="col-lg-12">
                           <fieldset>
-                            <textarea name="comment_description" rows="6"  placeholder="Type your comment" required=""></textarea>
-                          </fieldset>
+                            <textarea name="comment_description" rows="6"  placeholder="Type your comment" required="" ></textarea>
+
                         </div>
                         <div class="col-lg-12">
                           <fieldset>
-                            <button type="submit" id="form-submit" class="main-button">Submit</button>
+                            <button type="submit" id="form-submit" class="main-button" style="cursor: pointer;">Submit</button>
                           </fieldset>
                         </div>
                       </div>
@@ -231,8 +234,7 @@ Post Detail Page
   </section>
 
   {{---js for sccial media share start--}}
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-  <script src="{{ asset('js/share.js') }}"></script>
+
   {{---js for sccial media share end--}}
 
 

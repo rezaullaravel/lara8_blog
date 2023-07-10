@@ -63,9 +63,9 @@ class TagController extends Controller
 
     //tag update
     public function tagUpdate(Request $request){
-        $request->validate([
-            'tag_name'=>'required|unique:tags',
-        ]);
+        // $request->validate([
+        //     'tag_name'=>'required|unique:tags',
+        // ]);
 
 
 
