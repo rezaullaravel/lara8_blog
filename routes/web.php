@@ -59,8 +59,12 @@ Route::get('/comment/edit/{post_id}/{comment_id}',[CommentController::class,'edi
 //comment update
 Route::post('/comment/update',[CommentController::class,'updateComment'])->name('comment.update');
 
+
 //comment delete
 Route::get('/comment/delete/{id}',[CommentController::class,'deleteComment'])->name('comment.delete');
+
+//comment reply store
+Route::post('/reply/store',[CommentController::class,'replyStore'])->name('reply.store');
 
 //post search
 Route::get('/post/search',[FrontendController::class,'searchPost'])->name('post.search');

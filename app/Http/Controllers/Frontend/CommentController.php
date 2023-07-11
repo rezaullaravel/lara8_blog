@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\ReplyComment;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -55,6 +56,25 @@ class CommentController extends Controller
         $comment=Comment::find($id)->delete();
         return redirect()->back();
     }
+
+
+    //comment reply store
+    public  function replyStore(Request $request){
+
+
+        if(Auth::check()){
+            $reply = new ReplyComment();
+            $reply->user_id = Auth::user()->id;
+            $reply->name = Auth::user()->name;
+            $reply->comment_id = $request->commentId;
+            $reply->description = $request->description;
+            $reply->save();
+            return redirect()->back();
+
+        } else{
+            return redirect('/login')->with('sms','Login first to comment reply.If you are not registered plz register before.');
+        }
+    }//end method
 
 
 

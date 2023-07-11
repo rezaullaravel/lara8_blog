@@ -1,6 +1,6 @@
 @extends('frontend.frontend_master')
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="{{ asset('js/share.js') }}"></script>
 
 <style>
@@ -137,17 +137,55 @@ Post Detail Page
                           <h4>{{$comment['users']['name']}}<span>{{$comment->created_at->format('F j, Y')}}</span></h4>
                           <p>{!!$comment->comment_description!!}</p>
 
+                                <a href="javascript:void(0)"  class="text-info reply">Reply</a>
+
                           @if(Auth::check() && Auth::user()->id==$comment->user_id)
-                          <p>
+
                             <a href="{{route('comment.edit',
                             ['comment_id'=>$comment->id,
                              'post_id'=>$post->id,
-                            ])}}" class="btn btn-success btn-sm">Edit</a>
+                            ])}}" class="text-success">Edit</a>
 
-                            <a href="{{route('comment.delete',$comment->id)}}" id="delete2" class="btn btn-danger btn-sm">Delete</a>
-                          </p>
+                            <a href="{{route('comment.delete',$comment->id)}}" id="delete2" class="text-danger">Delete</a>
+
                           @endif
                           <br><br>
+
+
+
+
+                            {{-- comment reply show --}}
+                          @foreach ($comment->replyComments as $reply)
+                          <div class="right-content" style="padding:10px;">
+                            <p>{{ $reply->created_at }}</p>
+                            <h4>{{ $reply->name }}</h4>
+                            <p>{{ $reply->description }}</p>
+                          </div>
+                          @endforeach
+                          {{-- comment reply show end --}}
+
+
+
+                           {{-- add reply section --}}
+                                <div class="col-lg-12 replysection">
+
+                                        <form action="{{ route('reply.store')}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="commentId" value="{{ $comment->id }}">
+                                            <fieldset>
+                                                <textarea name="description" rows="4"   required="" class="form-control"></textarea>
+
+
+                                        </fieldset>
+                                              <fieldset>
+                                                <button type="submit"  class="btn btn-info" style="cursor: pointer; float:right; margin-top:3px;">Reply</button>
+                                              </fieldset>
+                                        </form>
+
+                                </div>
+                           {{-- add reply section end --}}
+
+
                         </div>
                       </li>
                     </ul>
@@ -163,12 +201,15 @@ Post Detail Page
               @endif
 
 
-
+            {{-- add comment section --}}
               <div class="col-lg-12">
                 <div class="sidebar-item submit-comment">
                   <div class="sidebar-heading">
                     <h2>Your comment</h2>
-                    <h4 class="alert alert-secondary">{{Session::get('sms')}}</h4>
+                    @if (Session('sms'))
+                      <h4 class="alert alert-secondary">{{Session::get('sms')}}</h4>
+
+                    @endif
                   </div>
                   <div class="content">
                     <form  action="{{route('store.comment')}}" method="post">
@@ -193,6 +234,9 @@ Post Detail Page
                   </div>
                 </div>
               </div>
+              {{-- add comment section end --}}
+
+
 
             </div>
           </div>
@@ -236,6 +280,29 @@ Post Detail Page
   {{---js for sccial media share start--}}
 
   {{---js for sccial media share end--}}
+
+
+  <script>
+   $(document).ready(function(){
+      $('.replysection').hide();
+      $('.reply').click(function(){
+        $(this).siblings(".replysection").toggle('swing');
+      });
+
+});
+  </script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var scrollpos = localStorage.getItem('scrollpos');
+        if (scrollpos) window.scrollTo(0, scrollpos);
+    });
+
+    window.onbeforeunload = function(e) {
+        localStorage.setItem('scrollpos', window.scrollY);
+    };
+</script>
 
 
 @endsection
